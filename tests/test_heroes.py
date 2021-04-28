@@ -99,13 +99,13 @@ class HeroesHandlerTestCase(unittest.TestCase):
         """Test update hero"""
         # Criando o heroi com o nome hero
         hero = self.create_hero('Hero', 'dc')
-        # Enviando a requisição para atualizar nome do heroi para "Hawkwoman"
+        # Enviando a requisição para atualizar nome do heroi para "Igor"
         params = {
             'hero': {
-                'name': 'Hawkwoman',
+                'name': 'Igor',
                 'description': hero.description,
                 'universe': hero.universe,
-                'imageUrl': 'https://exitoina.uol.com.br/media/_versions/mulher_gaviao_3_widexl.jpg'
+                'imageUrl': 'https://gartic.com.br/imgs/mural/ti/tica_/pantera-negra.png'
             }
         }
         response = self.app.post(path='/hero/{0}'.format(hero.id), json=params)
@@ -114,7 +114,7 @@ class HeroesHandlerTestCase(unittest.TestCase):
 
         # Obtendo o heroi atualizado para conferir o novo nome
         hero_updated = Hero.get_hero(hero.id)
-        self.assertEqual(hero_updated.name, 'Hawkwoman')
+        self.assertEqual(hero_updated.name, 'Igor')
 
     def test_delete_hero(self):
         """Test delete hero"""
