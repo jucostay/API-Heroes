@@ -1,4 +1,3 @@
-"""Test hero model"""
 import unittest
 
 from mock import patch
@@ -37,7 +36,7 @@ class TestHeroModel(unittest.TestCase):
         self.assertEqual(hero.id, new_hero.id)
 
     def test_get_hero_not_found(self):
-        """Test get hero with id not found"""
+        """Test get hero not found"""
         hero = Hero.get_hero('ID_TEST')
         self.assertIsNone(hero)
 
@@ -53,15 +52,14 @@ class TestHeroModel(unittest.TestCase):
     def test_get_heroes(self):
         """Test get heroes"""
         # Aqui vamos fazer um loop e criar 20 herois
-        # E o nome vai ser hero + index do loop, ex: "Hero 1"
         for index in range(1, 21):
             self.create_hero('Hero {0}'.format(index), 'marvel')
 
-        # Aqui vamos chamar o metodo para obter os herois
+        # Chamando o metodo para obter os herois
         heroes = Hero.get_heroes()
         # Percorrendo todos os herois e transformando eles em dict(json)
         heroes_dict = [hero.to_dict() for hero in heroes]
-        # Consultando a quantidade de itens que retornou
+        # Consultando a quantidade de item que retornou
         self.assertEqual(len(heroes_dict), 16)
         for hero in heroes_dict:
             self.assertTrue(hero['name'].startswith('Hero'))
@@ -70,5 +68,8 @@ class TestHeroModel(unittest.TestCase):
         """Test delete hero"""
         # Criando o heroi
         hero = self.create_hero('Joker', 'dc')
-        # Excluindo o heroi
+        # excluindo o heroi
         Hero.delete(hero.id)
+
+        # consultando se o heroi foi mesmo excluido
+        self.assertIsNone(Hero.get_hero(hero.id))

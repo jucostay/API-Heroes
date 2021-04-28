@@ -1,6 +1,4 @@
-"""Main module"""
 from firebase_admin import firestore
-
 
 class MainModule(object):
     """Main module"""

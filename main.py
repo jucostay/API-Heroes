@@ -1,15 +1,16 @@
-"""Arquivo main da API"""
-# Imports(Colocar no inicio)
+"""Arquivio main da API"""
 import firebase_admin
-from flask import Flask
-from flask import request
+from flask import Flask, request
 from flask_cors import CORS
 from flask_restful import Resource, Api
+from views.top_heroes import TopHeroesHandler
 
-# Aqui iniciamos a API
+from views.heroes import HeroesHandler, HeroHandler
+
 app = Flask(__name__)
 CORS(app)
 API = Api(app)
+
 # Iniciando o firebase com as credenciais que você salvou na raiz da aplicação no passo 3.1 Não se esqueça de colocar
 # o nome do arquivo que você salvou, no meu caso esta com o nome de
 # "tour-of-heroes-firebase-adminsdk-gds0n-14ebf97e39.json"
@@ -31,7 +32,7 @@ def start_request():
 
 # Nossa classe principal
 class Index(Resource):
-    """ class return API index """
+    """class return API index"""
 
     def get(self):
         """return API"""
@@ -40,6 +41,9 @@ class Index(Resource):
 
 # Nossa primeira url
 API.add_resource(Index, '/', endpoint='index')
+API.add_resource(HeroesHandler, '/heroes', endpoint='heroes')
+API.add_resource(HeroHandler, '/hero/<hero_id>', endpoint='hero')
+API.add_resource(TopHeroesHandler, '/top-heroes', endpoint='top-heroes')
 
 if __name__ == '__main__':
     # Isso é utilizado somente para executar a aplicação local. Quando

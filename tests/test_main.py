@@ -7,11 +7,10 @@ from main import app
 class TestMain(unittest.TestCase):
     """Test main"""
 
-    """ O setUp vai ser chamado antes de cada teste que criamos nessa classe """
-
+    # O setUp vai ser chamado antes de cada teste que criamos nessa classe
     def setUp(self):
         """Set up class"""
-        """ Aqui é iniciado a API no ambiente de teste """
+        # Aqui é iniciado a API no ambiente de teste
         self.app = app.test_client()
 
     def test_get_index_url(self):
