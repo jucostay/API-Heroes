@@ -28,7 +28,7 @@ class HeroesHandlerTestCase(unittest.TestCase):
             'hero': {
                 'name': 'Superman',
                 'description': 'Superman description',
-                'universe': 'dc',
+                'universe': 'DC',
                 'imageUrl': 'https://super.abril.com.br/wp-content/uploads/2018/09/superman.png?w=1024'
             }
         }
@@ -58,6 +58,18 @@ class HeroesHandlerTestCase(unittest.TestCase):
         # Conferindo a quantidade de herois que voltou no json
         self.assertEqual(len(response.get_json()['heroes']), 16)
 
+        # Fazendo a segunda consulta enviando o cursor retornado
+        cursor = response.get_json()['cursor']
+
+        response = self.app.get(path='/heroes?cursor=' + cursor)
+
+        # Conferindo se voltou 200
+        self.assertEqual(response.status_code, 200)
+
+        # Conferindo a quantidade de herois que voltou no json
+        # Na primeira requisiçao voltou 16 herois entao precisa retornar mais 4
+        self.assertEqual(len(response.get_json()['heroes']), 4)
+
     @staticmethod
     def create_hero(hero_name, universe):
         hero = Hero()
@@ -70,7 +82,7 @@ class HeroesHandlerTestCase(unittest.TestCase):
     def test_get_hero(self):
         """Test get hero"""
         # Criando o heroi e salvando o id
-        hero_id = self.create_hero('Hero', 'dc').id
+        hero_id = self.create_hero('Hero', 'DC').id
 
         # Enviando a requisição para obter o heroi
         response = self.app.get('/hero/{0}'.format(hero_id))
@@ -98,11 +110,11 @@ class HeroesHandlerTestCase(unittest.TestCase):
     def test_update_hero(self):
         """Test update hero"""
         # Criando o heroi com o nome hero
-        hero = self.create_hero('Hero', 'dc')
-        # Enviando a requisição para atualizar nome do heroi para "Igor"
+        hero = self.create_hero('Hero', 'DC')
+        # Enviando a requisição para atualizar nome do heroi para "Hawkwoman"
         params = {
             'hero': {
-                'name': 'Igor',
+                'name': 'Hawkwoman',
                 'description': hero.description,
                 'universe': hero.universe,
                 'imageUrl': 'https://gartic.com.br/imgs/mural/ti/tica_/pantera-negra.png'
@@ -114,12 +126,12 @@ class HeroesHandlerTestCase(unittest.TestCase):
 
         # Obtendo o heroi atualizado para conferir o novo nome
         hero_updated = Hero.get_hero(hero.id)
-        self.assertEqual(hero_updated.name, 'Igor')
+        self.assertEqual(hero_updated.name, 'Hawkwoman')
 
     def test_delete_hero(self):
         """Test delete hero"""
         # Criando o heroi
-        hero = self.create_hero('Hero', 'dc')
+        hero = self.create_hero('Hero', 'DC')
 
         # Enviando a requisição para excluir o heroi
         response = self.app.delete(path='/hero/{0}'.format(hero.id))
@@ -139,7 +151,7 @@ class HeroesHandlerTestCase(unittest.TestCase):
             'hero': {
                 'name': '',
                 'description': '',
-                'universe': 'dc',
+                'universe': 'DC',
                 'imageUrl': 'https://image.com.br/image.jpg'
             }
         }
@@ -154,7 +166,7 @@ class HeroesHandlerTestCase(unittest.TestCase):
             'hero': {
                 'name': ' SUPERMAN ',
                 'description': 'Hero description',
-                'universe': 'dc',
+                'universe': 'DC',
                 'imageUrl': 'https://image.com.br/image.jpg'
             }
         }
@@ -186,7 +198,7 @@ class HeroesHandlerTestCase(unittest.TestCase):
             'hero': {
                 'name': 'Superman',
                 'description': 'Superman description',
-                'universe': 'dc',
+                'universe': 'DC',
                 'imageUrl': ''
             }
         }
@@ -200,7 +212,7 @@ class HeroesHandlerTestCase(unittest.TestCase):
             'hero': {
                 'name': 'SUPERMAN',
                 'description': '          hero description         ',
-                'universe': 'dc',
+                'universe': 'DC',
                 'imageUrl': 'https://image.com.br/image.jpg'
             }
         }
@@ -214,4 +226,3 @@ class HeroesHandlerTestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
