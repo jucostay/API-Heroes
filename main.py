@@ -4,7 +4,7 @@ from flask import Flask, request
 from flask_cors import CORS
 from flask_restful import Resource, Api
 from views.top_heroes import TopHeroesHandler
-
+from views.heroes_search import HeroesSearchHandler
 from views.heroes import HeroesHandler, HeroHandler
 
 app = Flask(__name__)
@@ -44,6 +44,7 @@ API.add_resource(Index, '/', endpoint='index')
 API.add_resource(HeroesHandler, '/heroes', endpoint='heroes')
 API.add_resource(HeroHandler, '/hero/<hero_id>', endpoint='hero')
 API.add_resource(TopHeroesHandler, '/top-heroes', endpoint='top-heroes')
+API.add_resource(HeroesSearchHandler, '/search', endpoint='search')
 
 if __name__ == '__main__':
     # Isso é utilizado somente para executar a aplicação local. Quando
